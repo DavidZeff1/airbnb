@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import DropDown from "./DropDown";
 import CalendarDropDown from "@/app/ui/landingPage/header/calendarDropdown";
+import GuestDropDown from "@/app/ui/landingPage/header/GuestDropDown";
 import { useState } from "react";
 
 export default function SearchBar() {
@@ -90,6 +91,7 @@ export default function SearchBar() {
 
       <div className="relative">
         <div
+          onClick={toggleGuestsDropdown}
           className={clsx(
             "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group",
             isGuestsDropdownOpen && "bg-white"
@@ -111,6 +113,7 @@ export default function SearchBar() {
             />
           </button>
         </div>
+        {isGuestsDropdownOpen && <GuestDropDown />}
       </div>
     </div>
   );
