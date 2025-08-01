@@ -1,4 +1,5 @@
 "use client";
+import clsx from "clsx";
 import Image from "next/image";
 import DropDown from "./DropDown";
 import CalendarDropDown from "@/app/ui/landingPage/header/calendarDropdown";
@@ -30,12 +31,23 @@ export default function SearchBar() {
     setIsGuestsDropdownOpen((prevState) => !prevState);
   };
 
+  const anyClicked =
+    isSearchBarDropdownOpen || isCalendarDropdownOpen || isGuestsDropdownOpen;
+
   return (
-    <div className="bg-white grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow">
+    <div
+      className={clsx(
+        "grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow",
+        anyClicked ? "bg-gray-100" : "bg-white"
+      )}
+    >
       <div className="relative">
         <div
           onClick={toggleSearchBarDropdown}
-          className="absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start"
+          className={clsx(
+            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
+            isSearchBarDropdownOpen && "bg-white"
+          )}
         >
           <label className="text-xs font-semibold">Where</label>
           <input
@@ -50,7 +62,10 @@ export default function SearchBar() {
       <div className="relative">
         <button
           onClick={toggleCalendarDropdown}
-          className="absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start"
+          className={clsx(
+            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
+            isCalendarDropdownOpen && "bg-white"
+          )}
         >
           <div>
             <p className="text-xs font-semibold">Check In</p>
@@ -74,7 +89,12 @@ export default function SearchBar() {
       </div>
 
       <div className="relative">
-        <div className="absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group">
+        <div
+          className={clsx(
+            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group",
+            isGuestsDropdownOpen && "bg-white"
+          )}
+        >
           <div>
             <p className="text-xs font-semibold">Who</p>
           </div>
