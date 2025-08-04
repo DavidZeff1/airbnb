@@ -4,9 +4,12 @@ import Image from "next/image";
 import DropDown from "./DropDown";
 import CalendarDropDown from "@/app/ui/landingPage/header/calendarDropdown";
 import GuestDropDown from "@/app/ui/landingPage/header/GuestDropDown";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useTrip } from "../Context/TripContext";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
+  const { startTripDate, endTripDate, where, who } = useTrip();
   const [isSearchBarDropdownOpen, setIsSearchBarDropdownOpen] = useState(false);
   const [isCalendarDropdownOpen, setIsCalendarDropdownOpen] = useState(false);
   const [isGuestsDropdownOpen, setIsGuestsDropdownOpen] = useState(false);
@@ -53,7 +56,7 @@ export default function SearchBar() {
           <label className="text-xs font-semibold">Where</label>
           <input
             type="text"
-            placeholder="Search Destinations"
+            placeholder={where ? where.title : "Search Destinations"}
             className="text-base text-gray-800 focus:outline-none focus:ring-0"
           />
         </div>
@@ -72,7 +75,9 @@ export default function SearchBar() {
             <p className="text-xs font-semibold">Check In</p>
           </div>
           <div>
-            <p className="text-base font-light text-gray-500">Add Dates</p>
+            <p className="text-base font-light text-gray-500">
+              {startTripDate ? startTripDate.toDateString() : "Add Dates"}
+            </p>
           </div>
         </button>
         {isCalendarDropdownOpen && <CalendarDropDown />}
@@ -84,7 +89,9 @@ export default function SearchBar() {
             <p className="text-xs font-semibold">Check Out</p>
           </div>
           <div>
-            <p className="text-base font-light text-gray-500">Add Dates</p>
+            <p className="text-base font-light text-gray-500">
+              {endTripDate ? endTripDate.toDateString() : "Add Dates"}
+            </p>
           </div>
         </button>
       </div>
@@ -101,20 +108,64 @@ export default function SearchBar() {
             <p className="text-xs font-semibold">Who</p>
           </div>
           <div className="flex flex-row items-center gap-2">
-            <p className="text-base font-light text-gray-500">Add Guests</p>
+            <p className="text-base font-light text-gray-500">
+              {who
+                ? `Adlt ${who.adults} Chld ${who.children} Inft ${who.infants} `
+                : "Add Guests"}
+            </p>
           </div>
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-300 h-10 w-10 cursor-pointer hover:bg-blue-500 rounded-full flex items-center justify-center">
-            <Image
-              src="/icons/search.png"
-              alt="Search Icon"
-              width={20}
-              height={20}
-              className="filter invert"
-            />
-          </button>
         </div>
+        {SearchButton()}
         {isGuestsDropdownOpen && <GuestDropDown />}
       </div>
     </div>
+  );
+}
+
+function SearchButton() {
+  const { startTripDate, endTripDate, where, who } = useTrip();
+  const router = useRouter();
+  // Function to perform the search
+  const searchTrips = useCallback(async () => {
+    // Check if we have minimum required data
+    if (!startTripDate || !endTripDate || !where || !who) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    // Build the search URL
+    const baseUrl = "/trips";
+    const params = new URLSearchParams();
+
+    // Add date parameters
+    params.append("startDate", startTripDate.toISOString().split("T")[0]);
+    params.append("endDate", endTripDate.toISOString().split("T")[0]);
+
+    // Add location parameters
+    params.append("destination", where.title);
+    if (where.title) params.append("destination", where.title);
+
+    // Add guest parameters
+    params.append("adults", who.adults.toString());
+    params.append("children", who.children.toString());
+    params.append("infants", who.infants.toString());
+
+    const searchUrl = `${baseUrl}?${params.toString()}`;
+    router.push(searchUrl);
+  }, [startTripDate, endTripDate, where, who]);
+
+  return (
+    <button
+      onClick={searchTrips}
+      className="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-300 h-10 w-10 cursor-pointer hover:bg-blue-500 rounded-full flex items-center justify-center"
+    >
+      <Image
+        src="/icons/search.png"
+        alt="Search Icon"
+        width={20}
+        height={20}
+        className="filter invert"
+      />
+    </button>
   );
 }

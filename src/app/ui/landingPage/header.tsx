@@ -1,6 +1,7 @@
 import Logo from "@/app/ui/landingPage/header/logo";
 import SearchBar from "@/app/ui/landingPage/header/searchBar";
 import UserMenu from "@/app/ui/landingPage/header/userMenu";
+import { TripProvider } from "./Context/TripContext";
 
 export default function Header() {
   return (
@@ -8,7 +9,10 @@ export default function Header() {
       <div className="hidden md:block">
         <Logo />
       </div>
-      <SearchBar />
+      <TripProvider>
+        <SearchBar />
+      </TripProvider>
+
       <div className="hidden md:block">
         <UserMenu />
       </div>
