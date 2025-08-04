@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 export default function Footer() {
   const emailProviders = [
     {
@@ -56,7 +56,12 @@ export default function Footer() {
             <h4 className="font-semibold mb-2">Connect</h4>
             <ul className="space-y-2">
               <li className="flex items-center gap-2 relative group">
-                <img src="/icons/email.png" alt="Email" className="w-4 h-4" />
+                <Image
+                  src="/icons/email.png"
+                  alt="Email"
+                  width={16}
+                  height={16}
+                />
                 <span className="hover:underline cursor-pointer">Email Me</span>
 
                 {/* Dropdown Menu */}
@@ -73,7 +78,12 @@ export default function Footer() {
                 </div>
               </li>
               <li className="flex items-center gap-2">
-                <img src="/icons/github.png" alt="GitHub" className="w-4 h-4" />
+                <Image
+                  src="/icons/github.png"
+                  alt="github"
+                  width={16}
+                  height={16}
+                />
                 <a
                   href="https://github.com/DavidZeff1"
                   target="_blank"
@@ -84,10 +94,11 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <img
+                <Image
                   src="/icons/linkedin.png"
-                  alt="LinkedIn"
-                  className="w-4 h-4"
+                  alt="linkedin"
+                  width={16}
+                  height={16}
                 />
                 <a
                   href="https://www.linkedin.com/in/david-zeff-computerscience141592/"
@@ -100,10 +111,11 @@ export default function Footer() {
               </li>
 
               <li className="flex items-center gap-2">
-                <img
+                <Image
                   src="/icons/briefcase.png"
-                  alt="Portfolio"
-                  className="w-4 h-4"
+                  alt="portfolio"
+                  width={16}
+                  height={16}
                 />
                 <a
                   href="https://davidzeff1.github.io/ResumeWebsite/"
@@ -118,10 +130,11 @@ export default function Footer() {
           </div>
 
           {/* 🏠 Logo (next to links) */}
-          <div className="self-start">
-            <img
+          <div className=" relative self-start h-20 w-60">
+            <Image
               src="/logos/placePalLogo.png"
               alt="PlacePal Logo"
+              fill
               className="w-50 h-auto"
             />
           </div>

@@ -118,9 +118,11 @@ export default function Calendar({ monthType }: CalendarProps) {
             onClick={() => {
               // Don't allow clicking on past dates
               if (!isBehindCurrentDate) {
-                monthType === "start"
-                  ? setStartTripDate(thisDate)
-                  : setEndTripDate(thisDate);
+                if (monthType === "start") {
+                  setStartTripDate(thisDate);
+                } else {
+                  setEndTripDate(thisDate);
+                }
               }
             }}
             key={index}

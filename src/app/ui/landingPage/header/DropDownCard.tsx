@@ -12,7 +12,7 @@ export default function DropDownCard({
   title,
   description,
 }: WhereProps) {
-  const { where, setWhere } = useTrip();
+  const { setWhere } = useTrip();
 
   return (
     <div

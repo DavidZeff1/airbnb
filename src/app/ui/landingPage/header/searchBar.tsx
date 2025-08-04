@@ -152,7 +152,7 @@ function SearchButton() {
 
     const searchUrl = `${baseUrl}?${params.toString()}`;
     router.push(searchUrl);
-  }, [startTripDate, endTripDate, where, who]);
+  }, [startTripDate, endTripDate, where, who, router]);
 
   return (
     <button
