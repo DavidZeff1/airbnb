@@ -34,8 +34,8 @@ export default function Footer() {
           <p>
             This app is a clone of Airbnb, created for educational purposes
             only. All listings, bookings, and payments are simulated. No real
-            transactions take place, and no user data is stored. "PlacePal" is
-            not affiliated with Airbnb.
+            transactions take place, and no user data is stored.
+            &quot;PlacePal&quot; is not affiliated with Airbnb.
           </p>
         </div>
 
