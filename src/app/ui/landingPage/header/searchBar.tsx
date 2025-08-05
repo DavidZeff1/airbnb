@@ -41,7 +41,7 @@ export default function SearchBar() {
   return (
     <div
       className={clsx(
-        "grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow z-10",
+        "grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow z-10 overflow-hidden",
         anyClicked ? "bg-gray-100" : "bg-white"
       )}
     >

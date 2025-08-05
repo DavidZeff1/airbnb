@@ -18,7 +18,7 @@ export default function Card({
   costPerNight,
 }: CardProps) {
   return (
-    <div className="flex flex-col w-80 h-80 p-3">
+    <div className="flex flex-col w-70 h-80 p-3">
       <div className="grow relative h-fit ">
         <Image src={imgUrl} alt="house image" fill className="rounded-3xl" />
       </div>
