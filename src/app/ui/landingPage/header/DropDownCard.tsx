@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { useTrip } from "../Context/TripContext";
 
 type WhereProps = {
