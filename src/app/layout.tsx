@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
@@ -42,7 +43,10 @@ export default function RootLayout({
       lang="en"
       className={`${geist.variable} ${inter.variable} ${geistMono.variable} ${poppins.variable} ${roboto.variable}`}
     >
-      <body className="font-geist">{children}</body>
+      <body className="font-geist">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
