@@ -37,3 +37,6 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+.leaflet-container {
+  z-index: 0 !important;
+}

@@ -21,9 +21,11 @@
     "clsx": "^2.1.1",
     "daisyui": "^5.0.50",
     "framer-motion": "^12.23.12",
+    "leaflet": "^1.9.4",
     "next": "15.4.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^19.0.0-rc.1",
+    "react-dom": "^19.0.0-rc.1",
+    "react-leaflet": "^5.0.0-rc.2",
     "styled-components": "^6.1.19",
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-scrollbar-hide": "^4.0.0"
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.11",
+    "@types/leaflet": "^1.9.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
