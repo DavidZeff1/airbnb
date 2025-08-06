@@ -18,6 +18,7 @@
     "@heroui/theme": "^2.4.20",
     "@mui/material": "^7.2.0",
     "@mui/styled-engine-sc": "^7.2.0",
+    "@neondatabase/serverless": "^1.0.1",
     "@vercel/analytics": "^1.5.0",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.50",
@@ -29,7 +30,8 @@
     "react-leaflet": "^5.0.0-rc.2",
     "styled-components": "^6.1.19",
     "tailwind-scrollbar": "^4.0.2",
-    "tailwind-scrollbar-hide": "^4.0.0"
+    "tailwind-scrollbar-hide": "^4.0.0",
+    "zod": "^4.0.15"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
