@@ -41,7 +41,7 @@ export default function SearchBar() {
   return (
     <div
       className={clsx(
-        "grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow z-10 ",
+        "grid grid-cols-[2fr_1fr_1fr_2fr] h-20 w-auto rounded-full border-2 border-gray-200 shadow z-10  ",
         anyClicked ? "bg-gray-100" : "bg-white"
       )}
     >
@@ -49,7 +49,7 @@ export default function SearchBar() {
         <div
           onClick={toggleSearchBarDropdown}
           className={clsx(
-            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
+            "overflow-hidden absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
             isSearchBarDropdownOpen && "bg-white"
           )}
         >
@@ -67,7 +67,7 @@ export default function SearchBar() {
         <button
           onClick={toggleCalendarDropdown}
           className={clsx(
-            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
+            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start overflow-hidden",
             isCalendarDropdownOpen && "bg-white"
           )}
         >
@@ -84,7 +84,7 @@ export default function SearchBar() {
       </div>
 
       <div className="relative">
-        <button className="absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start">
+        <button className="absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start overflow-hidden">
           <div>
             <p className="text-xs font-semibold">Check Out</p>
           </div>
@@ -100,7 +100,7 @@ export default function SearchBar() {
         <div
           onClick={toggleGuestsDropdown}
           className={clsx(
-            "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group",
+            " overflow-hidden absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group",
             isGuestsDropdownOpen && "bg-white"
           )}
         >

@@ -13,16 +13,14 @@ export default function TripBody() {
   return (
     <>
       <div className="flex h-screen">
-        {/* Left container - Scrollable cards */}
         <div className="w-6/10 overflow-y-auto p-4 scrollbar-hide">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
             {cards.map((item) => (
               <Card key={item.id} {...item} />
             ))}
           </div>
         </div>
 
-        {/* Right container - Fixed map */}
         <div className="w-4/10 rounded-lg m-4 h-screen overflow-hidden">
           <div className=" bg-blue-100 rounded-lg m-4  h-4/6">
             <MapComponent />

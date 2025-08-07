@@ -1,6 +1,5 @@
 export interface HouseCardProps {
   city: string;
-  date: string;
   price: string;
   imageUrl: string;
 }

@@ -5,12 +5,14 @@ import { useTrip } from "../Context/TripContext";
 type WhereProps = {
   imageSrc: string;
   title: string;
+  country: string;
   description: string;
 };
 
 export default function DropDownCard({
   imageSrc,
   title,
+  country,
   description,
 }: WhereProps) {
   const { setWhere } = useTrip();
@@ -28,7 +30,7 @@ export default function DropDownCard({
         className="h-full object-cover rounded-3xl"
       />
       <div className="flex-10 h-full translate-y-6 ">
-        <p className="text-sm">{title}</p>
+        <p className="text-sm">{`${title}, ${country}`}</p>
         <p className="text-xs text-gray-500">{description}</p>
       </div>
     </div>

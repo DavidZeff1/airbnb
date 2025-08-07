@@ -1,21 +1,25 @@
 import Image from "next/image";
 
-import { HouseCardProps } from "@/app/interfaces";
-
 export default function HouseCard({
-  city,
-  date,
-  price,
-  imageUrl,
-}: HouseCardProps) {
+  id,
+  title,
+  base_price,
+  image_url,
+}: {
+  id: number;
+  title: string;
+  base_price: number;
+  image_url: string;
+}) {
   return (
-    <div className="bg-white h-auto w-70 rounded-lg flex-shrink-0 flex flex-col justify-between gap-1">
+    <div className="bg-white h-auto w-60 rounded-lg flex-shrink-0 flex flex-col justify-between gap-3">
       <div className="relative w-full grow hover:cursor-pointer">
-        <Image src={imageUrl} alt="house image" fill className="rounded-3xl" />
+        <Image src={image_url} alt="house image" fill className="rounded-3xl" />
       </div>
-      <div className="w-full text-xs">{`Apartment in ${city}`}</div>
-      <div className="w-full text-xs font-light text-gray-500">{date}</div>
-      <div className="w-full text-xs font-light text-gray-500">{price}</div>
+      <div className="w-full text-xs">{title}</div>
+      <div className="w-full text-xs font-light text-gray-500">
+        {`$${base_price} Per Night`}
+      </div>
     </div>
   );
 }

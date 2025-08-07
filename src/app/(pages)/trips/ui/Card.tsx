@@ -18,7 +18,7 @@ export default function Card({
   costPerNight,
 }: CardProps) {
   return (
-    <div className="flex flex-col w-70 h-80 p-3">
+    <div className="flex flex-col w-60 h-70 p-3">
       <div className="grow relative h-fit ">
         <Image src={imgUrl} alt="house image" fill className="rounded-3xl" />
       </div>
@@ -27,9 +27,6 @@ export default function Card({
       </div>
       <div className="w-full text-xs text-gray-500">
         <p>{decription}</p>
-      </div>
-      <div className="w-full text-xs text-gray-500">
-        <p>Aug 23 - 28</p>
       </div>
       <div className="w-full text-xs text-gray-500">
         <p> {`$ ${costPerNight} for 5 nights`}</p>
