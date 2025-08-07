@@ -14,13 +14,6 @@ const citySchema = z.object({
 const citiesSchema = z.array(citySchema);
 
 export async function GET() {
-  if (!process.env.DATABASE_URL) {
-    return NextResponse.json(
-      { error: "Database not configured" },
-      { status: 500 }
-    );
-  }
-
   try {
     const rawCities = await sql`
       SELECT 

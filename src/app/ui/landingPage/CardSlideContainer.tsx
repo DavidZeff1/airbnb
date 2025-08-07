@@ -15,11 +15,6 @@ export default async function CardSlideContainer() {
 }
 
 async function GetCities() {
-  // Add build-time protection
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL not available - returning empty cities array");
-    return [];
-  }
   const CitySchema = z.object({
     id: z.number(),
     name: z.string(),

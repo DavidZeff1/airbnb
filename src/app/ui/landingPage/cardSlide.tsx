@@ -27,12 +27,6 @@ export default async function CardSlide({
 }
 
 async function getPropertiesOfCity(id: number) {
-  // Add build-time protection
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL not available - returning empty cities array");
-    return [];
-  }
-
   const propertiesRaw = await sql`
       SELECT p.id, p.title, p.base_price, pi.image_url
   FROM properties p
