@@ -14,9 +14,7 @@ const citySchema = z.object({
 const citiesSchema = z.array(citySchema);
 
 export async function GET() {
-  // Add build-time protection
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL not available, likely during build time");
+  if (!sql) {
     return NextResponse.json(
       { error: "Database not configured" },
       { status: 500 }
