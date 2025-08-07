@@ -1,6 +1,6 @@
 import HouseCard from "@/app/ui/landingPage/houseCard";
 import sql from "@/app/lib/db";
-import { z } from "zod"; // Assuming you have a housesData file
+import { z } from "zod";
 
 export default async function CardSlide({
   id,
