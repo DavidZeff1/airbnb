@@ -32,6 +32,7 @@ export default function DropDown() {
         cities.map((city) => (
           <DropDownCard
             key={city.city_id}
+            id={city.city_id}
             imageSrc={city.image_url}
             title={city.city_name}
             country={city.country_name}

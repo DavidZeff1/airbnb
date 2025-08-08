@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 type Where = {
+  id: number;
   imageSrc: string;
   title: string;
   description: string;

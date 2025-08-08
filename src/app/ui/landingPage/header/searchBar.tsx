@@ -143,7 +143,7 @@ function SearchButton() {
 
     // Add location parameters
     params.append("destination", where.title);
-    if (where.title) params.append("destination", where.title);
+    params.append("destination-id", where.id.toString());
 
     // Add guest parameters
     params.append("adults", who.adults.toString());

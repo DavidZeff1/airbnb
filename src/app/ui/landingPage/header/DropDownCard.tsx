@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useTrip } from "../Context/TripContext";
 
 type WhereProps = {
+  id: number;
   imageSrc: string;
   title: string;
   country: string;
@@ -10,6 +11,7 @@ type WhereProps = {
 };
 
 export default function DropDownCard({
+  id,
   imageSrc,
   title,
   country,
@@ -19,7 +21,7 @@ export default function DropDownCard({
 
   return (
     <div
-      onClick={() => setWhere({ imageSrc, title, description })}
+      onClick={() => setWhere({ id, imageSrc, title, description })}
       className="w-full h-20 flex items-center gap-3 hover:bg-gray-100 rounded-3xl "
     >
       <Image
