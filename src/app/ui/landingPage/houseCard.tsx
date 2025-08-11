@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HouseCard({
   id,
@@ -11,8 +13,17 @@ export default function HouseCard({
   base_price: number;
   image_url: string;
 }) {
+  const router = useRouter();
+
+  const HandlePropertyClicked = () => {
+    const params = new URLSearchParams({ id: String(id) });
+    router.push(`/property?${params.toString()}`);
+  };
   return (
-    <div className="bg-white h-auto w-60 rounded-lg flex-shrink-0 flex flex-col justify-between gap-3">
+    <div
+      onClick={HandlePropertyClicked}
+      className="bg-white h-auto w-60 rounded-lg flex-shrink-0 flex flex-col justify-between gap-3"
+    >
       <div className="relative w-full grow hover:cursor-pointer">
         <Image src={image_url} alt="house image" fill className="rounded-3xl" />
       </div>

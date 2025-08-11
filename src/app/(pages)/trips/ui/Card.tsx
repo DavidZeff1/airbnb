@@ -1,16 +1,27 @@
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 export default function Card({
+  property_id,
   property_image_url,
   property_title,
   property_price,
 }: {
+  property_id: number;
   property_image_url: string;
   property_title: string;
   property_price: string;
 }) {
+  const router = useRouter();
+
+  const HandlePropertyClicked = () => {
+    const params = new URLSearchParams({ id: String(property_id) });
+    router.push(`/property?${params.toString()}`);
+  };
   return (
-    <div className="flex flex-col w-60 h-70 p-3">
+    <div
+      onClick={HandlePropertyClicked}
+      className="flex flex-col w-60 h-70 p-3 hover:cursor-pointer"
+    >
       <div className="grow relative h-fit mb-2 ">
         <Image
           src={property_image_url}

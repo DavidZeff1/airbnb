@@ -43,7 +43,6 @@ export default function TripBody() {
       });
   }, [searchParams]);
 
-  // Show skeleton while loading
   if (isLoading) {
     return <TripSkeletons />;
   }
@@ -94,6 +93,7 @@ function PropertiesContainer({
         {properties.map((property) => (
           <Card
             key={property.property_id}
+            property_id={property.property_id}
             property_image_url={property.property_image_url}
             property_title={property.property_title}
             property_price={property.property_price}
