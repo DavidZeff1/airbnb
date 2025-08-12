@@ -90,3 +90,12 @@ export interface PropertyData {
     averageRating: number;
   };
 }
+
+export interface Booking {
+  id: number;
+  property_id: number;
+  guest_id: number;
+  check_in_date: Date;
+  check_out_date: Date;
+  total_price: number;
+}

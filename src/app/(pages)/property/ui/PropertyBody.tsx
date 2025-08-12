@@ -8,13 +8,14 @@ import AmmenitiesSection from "./AmmenitiesSection";
 import FormSection from "./FormSection";
 import GallerySkeleton from "./skeletons/GallerySkeleton";
 import { useState, useEffect } from "react";
-import { PropertyData } from "../types/types";
+import { PropertyData, Booking } from "../types/types";
 
 export default function PropertyBody() {
+  const [booking, setBooking] = useState<Booking | null>(null);
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const id = searchParams.get("id");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [propertyData, setPropertyData] = useState<PropertyData | null>(null);
+  const id = searchParams.get("id");
 
   useEffect(() => {
     const fetchPropertyData = async (): Promise<void> => {
@@ -41,7 +42,7 @@ export default function PropertyBody() {
         ) : (
           <>
             <h1 className="font-semibold text-2xl">{`${propertyData?.property?.title}`}</h1>
-            <GallerySection />
+            <GallerySection propertyData={propertyData ? propertyData : null} />
             <div className="flex flex-col my-6 gap-6">
               <div className="grid grid-cols-12 my-6 gap-6 border-b-1 border-gray-300 p-6 ">
                 <div className="col-span-8 ">

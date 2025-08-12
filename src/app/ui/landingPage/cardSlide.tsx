@@ -28,12 +28,13 @@ export default async function CardSlide({
 
 async function getPropertiesOfCity(id: number) {
   const propertiesRaw = await sql`
-      SELECT p.id, p.title, p.base_price, pi.image_url
-  FROM properties p
-  JOIN towns t ON p.town_id = t.id
-  JOIN cities c ON t.city_id = c.id
-  JOIN property_images pi ON pi.property_id = p.id
-  WHERE c.id = ${id}
+      SELECT DISTINCT ON (p.id) 
+       p.id, p.title, p.base_price, pi.image_url
+FROM properties p
+JOIN towns t ON p.town_id = t.id
+JOIN cities c ON t.city_id = c.id
+JOIN property_images pi ON pi.property_id = p.id
+WHERE c.id = ${id}
     `;
   const propertySchema = z.object({
     id: z.number(),
