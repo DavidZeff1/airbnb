@@ -37,7 +37,7 @@ export default function FormSection({
     router.push(`/Booking?${queryParams.toString()}`);
   };
   return (
-    <div className="col-span-4 rounded-3xl h-100 sticky top-0 shadow-lg grid grid-cols-12 grid-rows-6 gap-3 p-4 ">
+    <div className="col-span-4 rounded-3xl h-100 sticky top-0 shadow-lg grid grid-cols-12 grid-rows-6 gap-3 p-4 border-2 border-gray-100 ">
       <div className="font-semibold text-2xl row-span-1 col-span-12 overflow-hidden">
         {`${
           booking?.check_in_date &&
