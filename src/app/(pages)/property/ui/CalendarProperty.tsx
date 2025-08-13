@@ -88,18 +88,6 @@ export default function Calendar({
       ))}
       {Array.from({ length: days }, (_, index) => {
         const thisDate = new Date(currentYear, currentMon, startIndex + index);
-        const today = new Date();
-
-        const todayDateOnly = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate()
-        );
-        const thisDateOnly = new Date(
-          thisDate.getFullYear(),
-          thisDate.getMonth(),
-          thisDate.getDate()
-        );
         const IsCurrentMonth = thisDate.getMonth() == currentMon;
         const isBetweenCheckInCheckOut =
           booking?.check_in_date &&
