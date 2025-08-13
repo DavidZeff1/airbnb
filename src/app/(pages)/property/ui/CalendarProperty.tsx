@@ -1,14 +1,24 @@
 "use client";
 import { useState } from "react";
 import clsx from "clsx";
+import { Booking } from "../types/types";
+import { Dispatch, SetStateAction } from "react";
 
-type CalendarProps = {
-  monthType: "start" | "end";
-};
-
-export default function Calendar({ monthType }: CalendarProps) {
-  const [currentMon, SetCurrentM] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+export default function Calendar({
+  monthType,
+  booking,
+  setBooking,
+}: {
+  monthType: string;
+  booking?: Booking | null;
+  setBooking?: Dispatch<SetStateAction<Booking | null>>;
+}) {
+  const [currentMon, setCurrentMon] = useState<number>(
+    booking?.check_in_date?.getMonth() ?? new Date().getMonth()
+  );
+  const [currentYear, setCurrentYear] = useState<number>(
+    booking?.check_out_date?.getFullYear() ?? new Date().getFullYear()
+  );
 
   const firstDayOfCurrentMonth = new Date(currentYear, currentMon, 1);
   const days = 42;
@@ -33,19 +43,19 @@ export default function Calendar({ monthType }: CalendarProps) {
 
   const handlePreviousMonth = () => {
     if (currentMon === 0) {
-      SetCurrentM(11); // December
+      setCurrentMon(11);
       setCurrentYear(currentYear - 1);
     } else {
-      SetCurrentM(currentMon - 1);
+      setCurrentMon(currentMon - 1);
     }
   };
 
   const handleNextMonth = () => {
     if (currentMon === 11) {
-      SetCurrentM(0); // January
+      setCurrentMon(0);
       setCurrentYear(currentYear + 1);
     } else {
-      SetCurrentM(currentMon + 1);
+      setCurrentMon(currentMon + 1);
     }
   };
 
@@ -80,7 +90,6 @@ export default function Calendar({ monthType }: CalendarProps) {
         const thisDate = new Date(currentYear, currentMon, startIndex + index);
         const today = new Date();
 
-        // Reset time to compare only dates
         const todayDateOnly = new Date(
           today.getFullYear(),
           today.getMonth(),
@@ -91,12 +100,45 @@ export default function Calendar({ monthType }: CalendarProps) {
           thisDate.getMonth(),
           thisDate.getDate()
         );
+        const IsCurrentMonth = thisDate.getMonth() == currentMon;
+        const isBetweenCheckInCheckOut =
+          booking?.check_in_date &&
+          booking?.check_out_date &&
+          booking.check_in_date.getTime() <= thisDate.getTime() &&
+          thisDate.getTime() <= booking.check_out_date.getTime();
+
+        const isCheckInDate =
+          booking?.check_in_date &&
+          booking.check_in_date.getTime() == thisDate.getTime();
+        const isCheckOutDate =
+          booking?.check_out_date &&
+          booking.check_out_date.getTime() == thisDate.getTime();
 
         return (
           <div
+            onClick={() => {
+              if (setBooking) {
+                if (monthType === "start") {
+                  setBooking((prev) =>
+                    prev ? { ...prev, check_in_date: thisDate } : null
+                  );
+                } else {
+                  setBooking((prev) =>
+                    prev ? { ...prev, check_out_date: thisDate } : null
+                  );
+                }
+              }
+            }}
             key={index}
             className={clsx(
-              "text-center text-sm font-light p-2 flex items-center justify-center rounded-full"
+              IsCurrentMonth &&
+                "text-center text-sm font-normal hover:cursor-pointer p-2 flex items-center justify-center rounded-full",
+              !IsCurrentMonth &&
+                "text-center text-sm font-light hover:cursor-not-allowed p-2 flex items-center justify-center rounded-full",
+              isBetweenCheckInCheckOut &&
+                "text-center bg-blue-100 text-sm font-light hover:cursor-not-allowed p-2 flex items-center justify-center rounded-full",
+              (isCheckOutDate || isCheckInDate) &&
+                "text-center text-white bg-blue-300 text-sm font-light hover:cursor-not-allowed p-2 flex items-center justify-center rounded-full"
             )}
           >
             {thisDate.getDate()}
@@ -105,7 +147,10 @@ export default function Calendar({ monthType }: CalendarProps) {
       })}
 
       <div className="col-span-full text-center text-xs font-semibold text-gray-600">
-        {`Choose ${monthType} Date`}
+        {`Choose ${monthType
+          .charAt(0)
+          .toUpperCase()
+          .concat(monthType.substring(1))} Date`}
       </div>
     </div>
   );

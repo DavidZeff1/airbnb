@@ -92,10 +92,9 @@ export interface PropertyData {
 }
 
 export interface Booking {
-  id: number;
-  property_id: number;
-  guest_id: number;
-  check_in_date: Date;
-  check_out_date: Date;
-  total_price: number;
+  property_id: number | undefined;
+  guest_id: number | undefined;
+  check_in_date: Date | null;
+  check_out_date: Date | null;
+  total_price: number | undefined;
 }

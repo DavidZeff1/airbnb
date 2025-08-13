@@ -11,11 +11,11 @@ import { useState, useEffect } from "react";
 import { PropertyData, Booking } from "../types/types";
 
 export default function PropertyBody() {
-  const [booking, setBooking] = useState<Booking | null>(null);
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [propertyData, setPropertyData] = useState<PropertyData | null>(null);
   const id = searchParams.get("id");
+  const [booking, setBooking] = useState<Booking | null>(null);
 
   useEffect(() => {
     const fetchPropertyData = async (): Promise<void> => {
@@ -27,6 +27,22 @@ export default function PropertyBody() {
 
       const data: PropertyData = await response.json();
       setPropertyData(data);
+      setBooking({
+        property_id: data.property?.property_id,
+        guest_id: data.host?.id,
+        check_in_date: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ),
+        check_out_date: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate() + 1
+        ),
+        total_price: data.property?.base_price,
+      });
+
       console.log(data);
       setIsLoading(false);
     };
@@ -80,7 +96,11 @@ export default function PropertyBody() {
                   </div>
 
                   <AmmenitiesSection amenities={propertyData?.amenities} />
-                  <CalendarSection propertyData={propertyData} />
+                  <CalendarSection
+                    propertyData={propertyData}
+                    booking={booking}
+                    setBooking={setBooking}
+                  />
                 </div>
                 <FormSection />
               </div>
