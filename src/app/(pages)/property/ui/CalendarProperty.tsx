@@ -101,11 +101,13 @@ export default function Calendar({
         const isCheckOutDate =
           booking?.check_out_date &&
           booking.check_out_date.getTime() == thisDate.getTime();
+        const isBeforeToday =
+          thisDate.getTime() + 1000 * 60 * 60 * 24 < new Date().getTime();
 
         return (
           <div
             onClick={() => {
-              if (setBooking) {
+              if (setBooking && !isBeforeToday) {
                 if (monthType === "start") {
                   setBooking((prev) =>
                     prev ? { ...prev, check_in_date: thisDate } : null
@@ -119,6 +121,7 @@ export default function Calendar({
             }}
             key={index}
             className={clsx(
+              isBeforeToday && "line-through",
               IsCurrentMonth &&
                 "text-center text-sm font-normal hover:cursor-pointer p-2 flex items-center justify-center rounded-full",
               !IsCurrentMonth &&

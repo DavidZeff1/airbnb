@@ -102,7 +102,11 @@ export default function PropertyBody() {
                     setBooking={setBooking}
                   />
                 </div>
-                <FormSection />
+                <FormSection
+                  propertyData={propertyData}
+                  booking={booking}
+                  setBooking={setBooking}
+                />
               </div>
 
               <ReviewSection />
