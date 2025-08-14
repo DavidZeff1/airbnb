@@ -2,6 +2,7 @@ import Logo from "@/app/ui/landingPage/header/logo";
 import Link from "next/link";
 import Footer from "@/app/ui/landingPage/Footer";
 import MainBookingBody from "./ui/MainBookingBody";
+import { Suspense } from "react";
 
 export default function Booking() {
   return (
@@ -11,7 +12,9 @@ export default function Booking() {
           <Logo />
         </Link>
       </header>
-      <MainBookingBody />
+      <Suspense>
+        <MainBookingBody />
+      </Suspense>
       <Footer />;
     </>
   );

@@ -42,6 +42,7 @@ export default function PropertyBody() {
           new Date().getDate() + 1
         ),
         total_price: data.property?.base_price,
+        amount_of_nights: 1,
       });
 
       console.log(data);
