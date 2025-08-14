@@ -29,7 +29,8 @@ export default function PropertyBody() {
       setPropertyData(data);
       setBooking({
         property_id: data.property?.property_id,
-        guest_id: data.host?.id,
+        host_id: data.host?.id,
+        guest_id: undefined,
         check_in_date: new Date(
           new Date().getFullYear(),
           new Date().getMonth(),

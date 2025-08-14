@@ -93,8 +93,33 @@ export interface PropertyData {
 
 export interface Booking {
   property_id: number | undefined;
+  host_id: number | undefined;
   guest_id: number | undefined;
   check_in_date: Date | null;
   check_out_date: Date | null;
   total_price: number | undefined;
+  amount_of_nights: number | null;
+}
+
+export interface fullPropertyData {
+  address: string | null;
+  base_price: string | null;
+  bathrooms: string | null;
+  bedrooms: number | null;
+  cleaning_fee: string | null;
+  created_at: string | null;
+  description: string | null;
+  host_id: number | null;
+  id: number | null;
+  is_active: boolean | null;
+  latitude: string | null;
+  longitude: string | null;
+  max_guests: number | null;
+  max_stay_nights: number | null;
+  min_stay_nights: number | null;
+  property_type_id: number | null;
+  security_deposit: string | null;
+  title: string | null;
+  town_id: number | null;
+  updated_at: string | null;
 }

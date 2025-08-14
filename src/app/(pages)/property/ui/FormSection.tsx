@@ -22,6 +22,11 @@ export default function FormSection({
       booking?.check_out_date
     );
 
+  const total_price =
+    propertyData?.property?.base_price &&
+    daysBetweenCheckInCheckOut &&
+    daysBetweenCheckInCheckOut * propertyData?.property?.base_price;
+
   const handleProceedToCheckOut = () => {
     if (!booking) return;
 
@@ -29,9 +34,10 @@ export default function FormSection({
     const queryParams = new URLSearchParams({
       check_in_date: booking.check_in_date?.toISOString() || "",
       check_out_date: booking.check_out_date?.toISOString() || "",
-      guest_id: booking.guest_id?.toString() || "",
+      host_id: propertyData?.host?.id?.toString() || "",
       property_id: booking.property_id?.toString() || "",
-      total_price: booking.total_price?.toString() || "",
+      total_price: total_price?.toString() || "",
+      amount_of_nights: daysBetweenCheckInCheckOut?.toString() || "",
     });
 
     router.push(`/Booking?${queryParams.toString()}`);
