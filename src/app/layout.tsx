@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ const poppins = Poppins({
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-roboto",
+  weight: ["400", "700"],
 });
 
 export default function RootLayout({
@@ -44,7 +46,7 @@ export default function RootLayout({
       className={`${geist.variable} ${inter.variable} ${geistMono.variable} ${poppins.variable} ${roboto.variable}`}
     >
       <body className="font-geist">
-        {children}
+        <Providers>{children}</Providers>
         <Analytics />
       </body>
     </html>
