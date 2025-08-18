@@ -37,26 +37,6 @@ model amenities {
   property_amenities property_amenities[]
 }
 
-model audit_logs {
-  id          Int       @id @default(autoincrement())
-  user_id     Int?
-  booking_id  Int?
-  action      String    @db.VarChar
-  entity_type String    @db.VarChar
-  entity_id   Int
-  old_values  Json?
-  new_values  Json?
-  ip_address  String?   @db.Inet
-  user_agent  String?
-  created_at  DateTime? @default(now()) @db.Timestamp(6)
-  bookings    bookings? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_audit_logs_booking_id")
-  users       users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_audit_logs_user_id")
-
-  @@index([booking_id], map: "idx_audit_logs_booking_id")
-  @@index([created_at], map: "idx_audit_logs_created_at")
-  @@index([user_id], map: "idx_audit_logs_user_id")
-}
-
 model booking_guests {
   id         Int       @id
   booking_id Int
@@ -69,41 +49,34 @@ model booking_guests {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model bookings {
-  id                                 Int               @id
+  id                                 Int              @id
   property_id                        Int
   guest_id                           Int
-  check_in_date                      DateTime          @db.Date
-  check_out_date                     DateTime          @db.Date
+  check_in_date                      DateTime         @db.Date
+  check_out_date                     DateTime         @db.Date
   num_guests                         Int
-  total_price                        Decimal           @db.Decimal(10, 2)
-  cleaning_fee                       Decimal?          @default(0) @db.Decimal(10, 2)
-  security_deposit                   Decimal?          @default(0) @db.Decimal(10, 2)
-  status                             String?           @default("pending") @db.VarChar(20)
+  total_price                        Decimal          @db.Decimal(10, 2)
+  cleaning_fee                       Decimal?         @default(0) @db.Decimal(10, 2)
+  security_deposit                   Decimal?         @default(0) @db.Decimal(10, 2)
+  status                             String?          @default("pending") @db.VarChar(20)
   special_requests                   String?
-  created_at                         DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at                         DateTime?         @default(now()) @db.Timestamp(6)
-  payment_status                     String?           @default("pending") @db.VarChar
-  payment_intent_id                  String?           @db.VarChar
-  booking_fee                        Decimal?          @db.Decimal
-  tax_amount                         Decimal?          @db.Decimal
-  host_payout_amount                 Decimal?          @db.Decimal
-  host_payout_status                 String?           @default("pending") @db.VarChar
-  cancellation_policy                String?           @default("moderate") @db.VarChar
-  cancelled_at                       DateTime?         @db.Timestamp(6)
+  created_at                         DateTime?        @default(now()) @db.Timestamp(6)
+  updated_at                         DateTime?        @default(now()) @db.Timestamp(6)
+  payment_status                     String?          @default("pending") @db.VarChar
+  payment_intent_id                  String?          @db.VarChar
+  booking_fee                        Decimal?         @db.Decimal
+  tax_amount                         Decimal?         @db.Decimal
+  host_payout_amount                 Decimal?         @db.Decimal
+  host_payout_status                 String?          @default("pending") @db.VarChar
+  cancellation_policy                String?          @default("moderate") @db.VarChar
+  cancelled_at                       DateTime?        @db.Timestamp(6)
   cancelled_by                       Int?
   cancellation_reason                String?
-  audit_logs                         audit_logs[]
   booking_guests                     booking_guests[]
-  users_bookings_guest_idTousers     users             @relation("bookings_guest_idTousers", fields: [guest_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  properties                         properties        @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_bookings_cancelled_byTousers users?            @relation("bookings_cancelled_byTousers", fields: [cancelled_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_cancelled_by")
-  messages                           messages[]
-  notifications                      notifications[]
-  payment_intents                    payment_intents[]
+  users_bookings_guest_idTousers     users            @relation("bookings_guest_idTousers", fields: [guest_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  properties                         properties       @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_bookings_cancelled_byTousers users?           @relation("bookings_cancelled_byTousers", fields: [cancelled_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_cancelled_by")
   payments                           payments[]
-  payouts                            payouts[]
-  promocode_usage                    promocode_usage[]
-  refunds                            refunds[]
   reviews                            reviews[]
 
   @@index([check_in_date, check_out_date], map: "idx_bookings_dates")
@@ -146,161 +119,24 @@ model countries {
   cities       cities[]
 }
 
-model messages {
-  id                                 Int       @id @default(autoincrement())
-  booking_id                         Int
-  sender_id                          Int
-  recipient_id                       Int
-  message                            String
-  is_read                            Boolean?  @default(false)
-  created_at                         DateTime? @default(now()) @db.Timestamp(6)
-  bookings                           bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_messages_booking_id")
-  users_messages_recipient_idTousers users     @relation("messages_recipient_idTousers", fields: [recipient_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_messages_recipient_id")
-  users_messages_sender_idTousers    users     @relation("messages_sender_idTousers", fields: [sender_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_messages_sender_id")
-
-  @@index([booking_id], map: "idx_messages_booking_id")
-  @@index([recipient_id], map: "idx_messages_recipient_id")
-  @@index([sender_id], map: "idx_messages_sender_id")
-}
-
-model notifications {
-  id                                         Int       @id @default(autoincrement())
-  user_id                                    Int
-  type                                       String    @db.VarChar
-  title                                      String    @db.VarChar
-  message                                    String
-  is_read                                    Boolean?  @default(false)
-  related_booking_id                         Int?
-  related_user_id                            Int?
-  metadata                                   Json?
-  created_at                                 DateTime? @default(now()) @db.Timestamp(6)
-  bookings                                   bookings? @relation(fields: [related_booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notifications_related_booking_id")
-  users_notifications_related_user_idTousers users?    @relation("notifications_related_user_idTousers", fields: [related_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notifications_related_user_id")
-  users_notifications_user_idTousers         users     @relation("notifications_user_idTousers", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_notifications_user_id")
-
-  @@index([is_read], map: "idx_notifications_is_read")
-  @@index([user_id], map: "idx_notifications_user_id")
-}
-
-model payment_intents {
-  id                       Int              @id @default(autoincrement())
-  booking_id               Int
-  stripe_payment_intent_id String           @unique @db.VarChar
-  amount                   Int
-  currency                 String?          @default("usd") @db.VarChar(3)
-  status                   String           @db.VarChar
-  client_secret            String?          @db.VarChar
-  payment_method_id        Int?
-  stripe_customer_id       String?          @db.VarChar
-  metadata                 Json?
-  created_at               DateTime?        @default(now()) @db.Timestamp(6)
-  updated_at               DateTime?        @default(now()) @db.Timestamp(6)
-  bookings                 bookings         @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payment_intents_booking_id")
-  payment_methods          payment_methods? @relation(fields: [payment_method_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_payment_intents_payment_method_id")
-  payments                 payments[]
-
-  @@index([booking_id], map: "idx_payment_intents_booking_id")
-}
-
-model payment_methods {
-  id                       Int               @id @default(autoincrement())
-  user_id                  Int
-  stripe_payment_method_id String            @unique @db.VarChar
-  type                     String            @db.VarChar
-  brand                    String?           @db.VarChar
-  last_four                String?           @db.VarChar(4)
-  exp_month                Int?
-  exp_year                 Int?
-  is_default               Boolean?          @default(false)
-  is_active                Boolean?          @default(true)
-  created_at               DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at               DateTime?         @default(now()) @db.Timestamp(6)
-  payment_intents          payment_intents[]
-  users                    users             @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payment_methods_user_id")
-
-  @@index([user_id], map: "idx_payment_methods_user_id")
-}
-
 model payments {
-  id                  Int              @id @default(autoincrement())
+  id                  Int       @id @default(autoincrement())
   booking_id          Int
   payment_intent_id   Int?
-  stripe_charge_id    String?          @db.VarChar
+  stripe_charge_id    String?   @db.VarChar
   amount              Int
-  currency            String?          @default("usd") @db.VarChar(3)
-  status              String           @db.VarChar
-  payment_method_type String?          @db.VarChar
-  failure_reason      String?          @db.VarChar
-  refund_amount       Int?             @default(0)
+  currency            String?   @default("usd") @db.VarChar(3)
+  status              String    @db.VarChar
+  payment_method_type String?   @db.VarChar
+  failure_reason      String?   @db.VarChar
+  refund_amount       Int?      @default(0)
   processing_fee      Int?
   net_amount          Int?
-  created_at          DateTime?        @default(now()) @db.Timestamp(6)
-  updated_at          DateTime?        @default(now()) @db.Timestamp(6)
-  bookings            bookings         @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payments_booking_id")
-  payment_intents     payment_intents? @relation(fields: [payment_intent_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_payments_payment_intent_id")
-  refunds             refunds[]
+  created_at          DateTime? @default(now()) @db.Timestamp(6)
+  updated_at          DateTime? @default(now()) @db.Timestamp(6)
+  bookings            bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payments_booking_id")
 
   @@index([booking_id], map: "idx_payments_booking_id")
-}
-
-model payouts {
-  id                 Int       @id @default(autoincrement())
-  host_id            Int
-  booking_id         Int
-  stripe_transfer_id String?   @unique @db.VarChar
-  amount             Int
-  currency           String?   @default("usd") @db.VarChar(3)
-  status             String    @db.VarChar
-  platform_fee       Int?
-  processing_fee     Int?
-  net_amount         Int?
-  payout_date        DateTime? @db.Date
-  failure_reason     String?   @db.VarChar
-  metadata           Json?
-  created_at         DateTime? @default(now()) @db.Timestamp(6)
-  updated_at         DateTime? @default(now()) @db.Timestamp(6)
-  bookings           bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payouts_booking_id")
-  users              users     @relation(fields: [host_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payouts_host_id")
-
-  @@index([booking_id], map: "idx_payouts_booking_id")
-  @@index([host_id], map: "idx_payouts_host_id")
-}
-
-model promocode_usage {
-  id              Int        @id @default(autoincrement())
-  promocode_id    Int
-  booking_id      Int
-  user_id         Int
-  discount_amount Decimal    @db.Decimal
-  created_at      DateTime?  @default(now()) @db.Timestamp(6)
-  bookings        bookings   @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promocode_usage_booking_id")
-  promocodes      promocodes @relation(fields: [promocode_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promocode_usage_promocode_id")
-  users           users      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promocode_usage_user_id")
-
-  @@unique([promocode_id, booking_id], map: "uk_promocode_usage_booking")
-  @@index([user_id], map: "idx_promocode_usage_user_id")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model promocodes {
-  id                  Int               @id @default(autoincrement())
-  code                String            @unique @db.VarChar
-  discount_type       String            @db.VarChar
-  discount_value      Decimal           @db.Decimal
-  min_booking_amount  Decimal?          @db.Decimal
-  max_discount_amount Decimal?          @db.Decimal
-  usage_limit         Int?
-  used_count          Int?              @default(0)
-  valid_from          DateTime?         @db.Timestamp(6)
-  valid_until         DateTime?         @db.Timestamp(6)
-  is_active           Boolean?          @default(true)
-  created_by          Int?
-  created_at          DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at          DateTime?         @default(now()) @db.Timestamp(6)
-  promocode_usage     promocode_usage[]
-  users               users?            @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_promocodes_created_by")
-
-  @@index([code], map: "idx_promocodes_code")
 }
 
 model properties {
@@ -376,24 +212,6 @@ model property_types {
   properties  properties[]
 }
 
-model refunds {
-  id               Int       @id @default(autoincrement())
-  payment_id       Int
-  booking_id       Int
-  stripe_refund_id String    @unique @db.VarChar
-  amount           Int
-  currency         String?   @default("usd") @db.VarChar(3)
-  status           String    @db.VarChar
-  reason           String?   @db.VarChar
-  metadata         Json?
-  created_at       DateTime? @default(now()) @db.Timestamp(6)
-  updated_at       DateTime? @default(now()) @db.Timestamp(6)
-  bookings         bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_refunds_booking_id")
-  payments         payments  @relation(fields: [payment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_refunds_payment_id")
-
-  @@index([payment_id], map: "idx_refunds_payment_id")
-}
-
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model reviews {
   id                               Int       @id
@@ -441,39 +259,30 @@ model towns {
 }
 
 model users {
-  id                                                 Int               @id
-  email                                              String            @unique @db.VarChar(255)
-  password_hash                                      String            @db.VarChar(255)
-  first_name                                         String            @db.VarChar(100)
-  last_name                                          String            @db.VarChar(100)
-  phone                                              String?           @db.VarChar(20)
-  date_of_birth                                      DateTime?         @db.Date
-  profile_picture                                    String?           @db.VarChar(500)
-  bio                                                String?
-  is_host                                            Boolean?          @default(false)
-  is_verified                                        Boolean?          @default(false)
-  created_at                                         DateTime?         @default(now()) @db.Timestamp(6)
-  updated_at                                         DateTime?         @default(now()) @db.Timestamp(6)
-  email_verified                                     DateTime?         @db.Timestamp(6)
-  image                                              String?           @db.VarChar
-  stripe_customer_id                                 String?           @unique(map: "users_stripe_customer_id_unique") @db.VarChar
-  stripe_account_id                                  String?           @unique(map: "users_stripe_account_id_unique") @db.VarChar
-  accounts                                           accounts[]
-  audit_logs                                         audit_logs[]
-  bookings_bookings_guest_idTousers                  bookings[]        @relation("bookings_guest_idTousers")
-  bookings_bookings_cancelled_byTousers              bookings[]        @relation("bookings_cancelled_byTousers")
-  messages_messages_recipient_idTousers              messages[]        @relation("messages_recipient_idTousers")
-  messages_messages_sender_idTousers                 messages[]        @relation("messages_sender_idTousers")
-  notifications_notifications_related_user_idTousers notifications[]   @relation("notifications_related_user_idTousers")
-  notifications_notifications_user_idTousers         notifications[]   @relation("notifications_user_idTousers")
-  payment_methods                                    payment_methods[]
-  payouts                                            payouts[]
-  promocode_usage                                    promocode_usage[]
-  promocodes                                         promocodes[]
-  properties                                         properties[]
-  reviews_reviews_reviewed_idTousers                 reviews[]         @relation("reviews_reviewed_idTousers")
-  reviews_reviews_reviewer_idTousers                 reviews[]         @relation("reviews_reviewer_idTousers")
-  sessions                                           sessions[]
+  id                                    Int          @id
+  email                                 String       @unique @db.VarChar(255)
+  password_hash                         String       @db.VarChar(255)
+  first_name                            String       @db.VarChar(100)
+  last_name                             String       @db.VarChar(100)
+  phone                                 String?      @db.VarChar(20)
+  date_of_birth                         DateTime?    @db.Date
+  profile_picture                       String?      @db.VarChar(500)
+  bio                                   String?
+  is_host                               Boolean?     @default(false)
+  is_verified                           Boolean?     @default(false)
+  created_at                            DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at                            DateTime?    @default(now()) @db.Timestamp(6)
+  email_verified                        DateTime?    @db.Timestamp(6)
+  image                                 String?      @db.VarChar
+  stripe_customer_id                    String?      @unique(map: "users_stripe_customer_id_unique") @db.VarChar
+  stripe_account_id                     String?      @unique(map: "users_stripe_account_id_unique") @db.VarChar
+  accounts                              accounts[]
+  bookings_bookings_guest_idTousers     bookings[]   @relation("bookings_guest_idTousers")
+  bookings_bookings_cancelled_byTousers bookings[]   @relation("bookings_cancelled_byTousers")
+  properties                            properties[]
+  reviews_reviews_reviewed_idTousers    reviews[]    @relation("reviews_reviewed_idTousers")
+  reviews_reviews_reviewer_idTousers    reviews[]    @relation("reviews_reviewer_idTousers")
+  sessions                              sessions[]
 
   @@index([email], map: "idx_users_email")
 }
