@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { SetStateAction, Dispatch } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Session } from "next-auth";
 
 export default function SignUpModal({
@@ -11,13 +11,8 @@ export default function SignUpModal({
   const { data: session } = useSession();
 
   const handleSignIn = async (provider: string) => {
-    await signIn(provider, { redirect: false });
     SetIsModalClicked(false);
-  };
-
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    SetIsModalClicked(false);
+    await signIn(provider);
   };
 
   return (
@@ -40,11 +35,7 @@ export default function SignUpModal({
           <div className="w-7"></div>
         </div>
 
-        <SignUpLinks
-          SignIn={handleSignIn}
-          SignOut={handleSignOut}
-          session={session}
-        />
+        <SignUpLinks SignIn={handleSignIn} session={session} />
       </div>
     </>
   );
@@ -54,15 +45,13 @@ const links = ["facebook", "google", "github"];
 
 const SignUpLinks = ({
   SignIn,
-  SignOut,
   session,
 }: {
   SignIn: (provider: string) => void;
-  SignOut: () => void;
   session: Session | null;
 }) => (
   <div className="flex justify-between">
-    {!session ? (
+    {!session &&
       links.map((link, index) => {
         return (
           <div
@@ -81,16 +70,6 @@ const SignUpLinks = ({
             />
           </div>
         );
-      })
-    ) : (
-      <div className="w-full flex justify-center">
-        <button
-          onClick={SignOut}
-          className="px-4 py-2 rounded-xl border border-gray-800 bg-gray-100 hover:bg-gray-200 transition-colors"
-        >
-          Sign Out
-        </button>
-      </div>
-    )}
+      })}
   </div>
 );
