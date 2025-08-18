@@ -233,19 +233,6 @@ model reviews {
   @@index([booking_id], map: "idx_reviews_booking_id")
 }
 
-model sessions {
-  id            Int       @id @default(autoincrement())
-  session_token String    @unique @db.VarChar
-  user_id       Int
-  expires       DateTime  @db.Timestamp(6)
-  created_at    DateTime? @default(now()) @db.Timestamp(6)
-  updated_at    DateTime? @default(now()) @db.Timestamp(6)
-  users         users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sessions_user_id")
-
-  @@index([session_token], map: "idx_sessions_token")
-  @@index([user_id], map: "idx_sessions_user_id")
-}
-
 model towns {
   id          Int          @id
   name        String       @db.VarChar(100)
@@ -282,18 +269,6 @@ model users {
   properties                            properties[]
   reviews_reviews_reviewed_idTousers    reviews[]    @relation("reviews_reviewed_idTousers")
   reviews_reviews_reviewer_idTousers    reviews[]    @relation("reviews_reviewer_idTousers")
-  sessions                              sessions[]
 
   @@index([email], map: "idx_users_email")
-}
-
-model verification_tokens {
-  identifier String    @db.VarChar
-  token      String    @db.VarChar
-  expires    DateTime  @db.Timestamp(6)
-  created_at DateTime? @default(now()) @db.Timestamp(6)
-
-  @@id([identifier, token])
-  @@index([identifier], map: "idx_verification_tokens_identifier")
-  @@index([token], map: "idx_verification_tokens_token")
 }

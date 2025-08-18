@@ -115,8 +115,6 @@ export interface fullPropertyData {
   latitude: string | null;
   longitude: string | null;
   max_guests: number | null;
-  max_stay_nights: number | null;
-  min_stay_nights: number | null;
   property_type_id: number | null;
   security_deposit: string | null;
   title: string | null;
