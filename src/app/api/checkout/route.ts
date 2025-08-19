@@ -11,11 +11,8 @@ type CheckoutItem = {
 
 export async function POST(req: Request) {
   try {
-    console.log(
-      "Using Stripe key:",
-      process.env.STRIPE_SECRET_KEY?.slice(0, 8)
-    );
-    const { items } = await req.json();
+    const { items, property_id, guest_id, check_in_date, check_out_date } =
+      await req.json();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -30,6 +27,12 @@ export async function POST(req: Request) {
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      metadata: {
+        property_id: String(property_id),
+        guest_id: String(guest_id),
+        check_in_date,
+        check_out_date,
+      },
     });
 
     return NextResponse.json({ url: session.url });

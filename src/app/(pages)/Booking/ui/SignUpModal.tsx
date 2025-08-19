@@ -21,7 +21,7 @@ export default function SignUpModal({
         onClick={() => SetIsModalClicked(false)}
         className="fixed bg-gray-200 opacity-50 top-0 left-0 w-full h-full z-10"
       ></div>
-      <div className="fixed flex flex-col bg-white z-20 rounded-3xl  w-125 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 p-5 max-h-96 overflow-y-auto">
+      <div className="fixed flex flex-col bg-white z-20 rounded-3xl w-125 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 p-5 max-h-96 overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <div
             onClick={() => SetIsModalClicked(false)}

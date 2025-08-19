@@ -18,8 +18,6 @@ model accounts {
   expires_at          Int?
   token_type          String?   @db.VarChar
   scope               String?   @db.VarChar
-  id_token            String?
-  session_state       String?   @db.VarChar
   created_at          DateTime? @default(now()) @db.Timestamp(6)
   updated_at          DateTime? @default(now()) @db.Timestamp(6)
   users               users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_accounts_user_id")
@@ -49,35 +47,27 @@ model booking_guests {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model bookings {
-  id                                 Int              @id
-  property_id                        Int
-  guest_id                           Int
-  check_in_date                      DateTime         @db.Date
-  check_out_date                     DateTime         @db.Date
-  num_guests                         Int
-  total_price                        Decimal          @db.Decimal(10, 2)
-  cleaning_fee                       Decimal?         @default(0) @db.Decimal(10, 2)
-  security_deposit                   Decimal?         @default(0) @db.Decimal(10, 2)
-  status                             String?          @default("pending") @db.VarChar(20)
-  special_requests                   String?
-  created_at                         DateTime?        @default(now()) @db.Timestamp(6)
-  updated_at                         DateTime?        @default(now()) @db.Timestamp(6)
-  payment_status                     String?          @default("pending") @db.VarChar
-  payment_intent_id                  String?          @db.VarChar
-  booking_fee                        Decimal?         @db.Decimal
-  tax_amount                         Decimal?         @db.Decimal
-  host_payout_amount                 Decimal?         @db.Decimal
-  host_payout_status                 String?          @default("pending") @db.VarChar
-  cancellation_policy                String?          @default("moderate") @db.VarChar
-  cancelled_at                       DateTime?        @db.Timestamp(6)
-  cancelled_by                       Int?
-  cancellation_reason                String?
-  booking_guests                     booking_guests[]
-  users_bookings_guest_idTousers     users            @relation("bookings_guest_idTousers", fields: [guest_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  properties                         properties       @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_bookings_cancelled_byTousers users?           @relation("bookings_cancelled_byTousers", fields: [cancelled_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_cancelled_by")
-  payments                           payments[]
-  reviews                            reviews[]
+  id                 Int              @id
+  property_id        Int
+  guest_id           Int
+  check_in_date      DateTime         @db.Date
+  check_out_date     DateTime         @db.Date
+  num_guests         Int
+  total_price        Decimal          @db.Decimal(10, 2)
+  cleaning_fee       Decimal?         @default(0) @db.Decimal(10, 2)
+  security_deposit   Decimal?         @default(0) @db.Decimal(10, 2)
+  status             String?          @default("pending") @db.VarChar(20)
+  created_at         DateTime?        @default(now()) @db.Timestamp(6)
+  updated_at         DateTime?        @default(now()) @db.Timestamp(6)
+  payment_status     String?          @default("pending") @db.VarChar
+  payment_intent_id  String?          @db.VarChar
+  host_payout_amount Decimal?         @db.Decimal
+  host_payout_status String?          @default("pending") @db.VarChar
+  booking_guests     booking_guests[]
+  users              users            @relation(fields: [guest_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  properties         properties       @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payments           payments[]
+  reviews            reviews[]
 
   @@index([check_in_date, check_out_date], map: "idx_bookings_dates")
   @@index([guest_id], map: "idx_bookings_guest_id")
@@ -120,21 +110,17 @@ model countries {
 }
 
 model payments {
-  id                  Int       @id @default(autoincrement())
-  booking_id          Int
-  payment_intent_id   Int?
-  stripe_charge_id    String?   @db.VarChar
-  amount              Int
-  currency            String?   @default("usd") @db.VarChar(3)
-  status              String    @db.VarChar
-  payment_method_type String?   @db.VarChar
-  failure_reason      String?   @db.VarChar
-  refund_amount       Int?      @default(0)
-  processing_fee      Int?
-  net_amount          Int?
-  created_at          DateTime? @default(now()) @db.Timestamp(6)
-  updated_at          DateTime? @default(now()) @db.Timestamp(6)
-  bookings            bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payments_booking_id")
+  id                Int       @id @default(autoincrement())
+  booking_id        Int
+  payment_intent_id Int?
+  stripe_charge_id  String?   @db.VarChar
+  amount            Int
+  currency          String?   @default("usd") @db.VarChar(3)
+  status            String    @db.VarChar
+  net_amount        Int?
+  created_at        DateTime? @default(now()) @db.Timestamp(6)
+  updated_at        DateTime? @default(now()) @db.Timestamp(6)
+  bookings          bookings  @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_payments_booking_id")
 
   @@index([booking_id], map: "idx_payments_booking_id")
 }
@@ -156,8 +142,6 @@ model properties {
   cleaning_fee           Decimal?                 @default(0) @db.Decimal(10, 2)
   security_deposit       Decimal?                 @default(0) @db.Decimal(10, 2)
   is_active              Boolean?                 @default(true)
-  min_stay_nights        Int?                     @default(1)
-  max_stay_nights        Int?                     @default(365)
   created_at             DateTime?                @default(now()) @db.Timestamp(6)
   updated_at             DateTime?                @default(now()) @db.Timestamp(6)
   bookings               bookings[]
@@ -246,29 +230,26 @@ model towns {
 }
 
 model users {
-  id                                    Int          @id
-  email                                 String       @unique @db.VarChar(255)
-  password_hash                         String       @db.VarChar(255)
-  first_name                            String       @db.VarChar(100)
-  last_name                             String       @db.VarChar(100)
-  phone                                 String?      @db.VarChar(20)
-  date_of_birth                         DateTime?    @db.Date
-  profile_picture                       String?      @db.VarChar(500)
-  bio                                   String?
-  is_host                               Boolean?     @default(false)
-  is_verified                           Boolean?     @default(false)
-  created_at                            DateTime?    @default(now()) @db.Timestamp(6)
-  updated_at                            DateTime?    @default(now()) @db.Timestamp(6)
-  email_verified                        DateTime?    @db.Timestamp(6)
-  image                                 String?      @db.VarChar
-  stripe_customer_id                    String?      @unique(map: "users_stripe_customer_id_unique") @db.VarChar
-  stripe_account_id                     String?      @unique(map: "users_stripe_account_id_unique") @db.VarChar
-  accounts                              accounts[]
-  bookings_bookings_guest_idTousers     bookings[]   @relation("bookings_guest_idTousers")
-  bookings_bookings_cancelled_byTousers bookings[]   @relation("bookings_cancelled_byTousers")
-  properties                            properties[]
-  reviews_reviews_reviewed_idTousers    reviews[]    @relation("reviews_reviewed_idTousers")
-  reviews_reviews_reviewer_idTousers    reviews[]    @relation("reviews_reviewer_idTousers")
+  id                                 Int          @id
+  email                              String       @unique @db.VarChar(255)
+  password_hash                      String       @db.VarChar(255)
+  first_name                         String       @db.VarChar(100)
+  last_name                          String       @db.VarChar(100)
+  phone                              String?      @db.VarChar(20)
+  date_of_birth                      DateTime?    @db.Date
+  profile_picture                    String?      @db.VarChar(500)
+  bio                                String?
+  is_host                            Boolean?     @default(false)
+  created_at                         DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at                         DateTime?    @default(now()) @db.Timestamp(6)
+  image                              String?      @db.VarChar
+  stripe_customer_id                 String?      @unique(map: "users_stripe_customer_id_unique") @db.VarChar
+  stripe_account_id                  String?      @unique(map: "users_stripe_account_id_unique") @db.VarChar
+  accounts                           accounts[]
+  bookings                           bookings[]
+  properties                         properties[]
+  reviews_reviews_reviewed_idTousers reviews[]    @relation("reviews_reviewed_idTousers")
+  reviews_reviews_reviewer_idTousers reviews[]    @relation("reviews_reviewer_idTousers")
 
   @@index([email], map: "idx_users_email")
 }
