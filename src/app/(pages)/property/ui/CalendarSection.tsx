@@ -13,8 +13,7 @@ export default function CalendarSection({
   if (!propertyData || !booking || !setBooking) {
     return null;
   }
-  const { check_in_date, check_out_date, guest_id, property_id, total_price } =
-    booking;
+  const { check_in_date, check_out_date } = booking;
 
   return (
     <div className="grid grid-cols-12 gap-5 my-6 py-5">
