@@ -21,7 +21,7 @@ export default function BookingCard({ booking }: { booking: Booking }) {
         alt="Property"
         width={500}
         height={300}
-        className="w-full h-3/4 rounded-lg shadow-md"
+        className="w-full h-50 rounded-lg shadow-md object-cover"
       />
       <p className="text-gray-600 mt-2">Property ID: {booking.property_id}</p>
       <p className="text-gray-600 mt-1">

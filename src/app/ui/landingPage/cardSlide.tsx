@@ -12,11 +12,11 @@ export default async function CardSlide({
   const houses = await getPropertiesOfCity(id);
   return (
     <div>
-      <div className=" h-75 w-auto mx-20 my-10 flex flex-col">
+      <div className=" h-100 w-auto mx-20 my-10 flex flex-col">
         <div>
           <p className="font-semibold">{`Popular homes in ${name} ${">"}`}</p>
         </div>
-        <div className="flex-grow w-full flex gap-4 justify-start scrollbar-hide overflow-x-auto">
+        <div className="flex-grow w-full flex gap-5 justify-start scrollbar-hide overflow-x-auto p-3">
           {houses.map((house) => {
             return <HouseCard key={house.id} {...house} />;
           })}
