@@ -106,17 +106,14 @@ export interface fullPropertyData {
   base_price: string | null;
   bathrooms: string | null;
   bedrooms: number | null;
-  cleaning_fee: string | null;
   created_at: string | null;
   description: string | null;
   host_id: number | null;
   id: number | null;
-  is_active: boolean | null;
   latitude: string | null;
   longitude: string | null;
   max_guests: number | null;
   property_type_id: number | null;
-  security_deposit: string | null;
   title: string | null;
   town_id: number | null;
   updated_at: string | null;

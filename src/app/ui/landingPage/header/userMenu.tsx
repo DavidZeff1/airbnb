@@ -12,7 +12,7 @@ export default function UserMenu() {
     <div className="relative flex justify-center">
       <div className="grid grid-cols-[3fr_3fr_1fr] gap-5 h-10 w-auto">
         <button className="text-sm h-10 w-fit cursor-pointer hover:bg-gray-200 rounded-full p-3">
-          Become A Host
+          <a href="/becomeAHost">Become A Host</a>
         </button>
         {session ? (
           <button

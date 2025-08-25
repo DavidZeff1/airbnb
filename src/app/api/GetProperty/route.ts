@@ -32,7 +32,6 @@ export async function GET(request: Request) {
         p.bathrooms,
         p.max_guests,
         p.base_price,
-        p.is_active,
         p.created_at AS property_created_at,
         p.updated_at AS property_updated_at,
         t.id AS town_id_actual,
