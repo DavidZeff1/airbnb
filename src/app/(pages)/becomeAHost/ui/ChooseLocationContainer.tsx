@@ -46,7 +46,7 @@ export default function ChooseLocationContainer() {
       setSelectedNeighborhood(null);
 
       fetch(
-        `http://api.geonames.org/searchJSON?country=${selectedCountry.countryCode}&featureClass=P&maxRows=1000&username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
+        `https://secure.geonames.org/searchJSON?country=${selectedCountry.countryCode}&featureClass=P&maxRows=1000&username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -64,7 +64,7 @@ export default function ChooseLocationContainer() {
       setSelectedNeighborhood(null);
 
       fetch(
-        `http://api.geonames.org/childrenJSON?geonameId=${selectedCity.geonameId}&username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
+        `https://secure.geonames.org/childrenJSON?geonameId=${selectedCity.geonameId}&username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
       )
         .then((res) => res.json())
         .then((data) => {
