@@ -27,7 +27,7 @@ export default function ChooseLocationContainer() {
 
   useEffect(() => {
     fetch(
-      `http://api.geonames.org/countryInfoJSON?username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
+      `https://secure.geonames.org/countryInfoJSON?username=${process.env.NEXT_PUBLIC_GEONAMES_USERNAME}`
     )
       .then((res) => res.json())
       .then((data) => {
