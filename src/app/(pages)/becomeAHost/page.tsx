@@ -2,6 +2,7 @@ import Logo from "@/app/ui/landingPage/header/logo";
 import UserMenu from "@/app/ui/landingPage/header/userMenu";
 import Footer from "@/app/ui/landingPage/Footer";
 import HostRegisterContainer from "./ui/HostRegisterContainer";
+import { Suspense } from "react";
 
 export default function BecomeAHostPage() {
   return (
@@ -15,7 +16,10 @@ export default function BecomeAHostPage() {
           <UserMenu />
         </div>
       </header>
-      <HostRegisterContainer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HostRegisterContainer />
+      </Suspense>
+
       <Footer />
     </>
   );
