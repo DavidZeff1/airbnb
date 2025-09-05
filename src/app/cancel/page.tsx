@@ -9,7 +9,7 @@ export default function CancelPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/checkout");
+      router.back();
     }, 3000);
 
     return () => clearTimeout(timer);

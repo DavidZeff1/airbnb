@@ -9,7 +9,7 @@ export default function SuccessPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/userBookings");
     }, 3000);
 
     return () => clearTimeout(timer);
