@@ -10,6 +10,9 @@ export default function CancelPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.back();
+      setTimeout(() => {
+        router.back();
+      }, 100);
     }, 3000);
 
     return () => clearTimeout(timer);
