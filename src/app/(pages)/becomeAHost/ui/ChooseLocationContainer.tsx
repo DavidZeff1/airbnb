@@ -121,47 +121,51 @@ export default function ChooseLocationContainer() {
           </select>
         </div>
 
-        <div>
-          <h3>City</h3>
-          <select
-            className="border border-gray-300 p-2 rounded w-full mb-3 font-light"
-            value={selectedCity?.geonameId || ""}
-            onChange={handleCityChange}
-            disabled={!selectedCountry}
-          >
-            <option value="">-Choose City-</option>
-            {cities.map((city) => (
-              <option
-                className="font-light "
-                key={city.geonameId}
-                value={city.geonameId}
-              >
-                {city.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {selectedCountry && (
+          <div>
+            <h3>City</h3>
+            <select
+              className="border border-gray-300 p-2 rounded w-full mb-3 font-light"
+              value={selectedCity?.geonameId || ""}
+              onChange={handleCityChange}
+              disabled={!selectedCountry}
+            >
+              <option value="">-Choose City-</option>
+              {cities.map((city) => (
+                <option
+                  className="font-light "
+                  key={city.geonameId}
+                  value={city.geonameId}
+                >
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div>
-          <h3>Neighborhood</h3>
-          <select
-            className="border border-gray-300 p-2 rounded w-full mb-3 font-light"
-            value={selectedNeighborhood?.geonameId || ""}
-            onChange={handleNeighborhoodChange}
-            disabled={!selectedCity}
-          >
-            <option value="">-Choose Neighborhood-</option>
-            {neighborhoods.map((neighborhood) => (
-              <option
-                className="font-light"
-                key={neighborhood.geonameId}
-                value={neighborhood.geonameId}
-              >
-                {neighborhood.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {selectedCountry && selectedCity && (
+          <div>
+            <h3>Neighborhood</h3>
+            <select
+              className="border border-gray-300 p-2 rounded w-full mb-3 font-light"
+              value={selectedNeighborhood?.geonameId || ""}
+              onChange={handleNeighborhoodChange}
+              disabled={!selectedCity}
+            >
+              <option value="">-Choose Neighborhood-</option>
+              {neighborhoods.map((neighborhood) => (
+                <option
+                  className="font-light"
+                  key={neighborhood.geonameId}
+                  value={neighborhood.geonameId}
+                >
+                  {neighborhood.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="mb-3">
           <h3>Street Address</h3>

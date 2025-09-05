@@ -8,7 +8,13 @@ import AddImagesContainer from "./AddImagesContainer";
 export default function HostRegisterContainer() {
   const { data: session } = useSession();
   if (!session) {
-    return <div>Please log in to become a host.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center p-6 bg-white rounded-lg shadow-sm border">
+          <p className="text-gray-600">Please log in to become a host.</p>
+        </div>
+      </div>
+    );
   }
   return (
     <div className="py-8 px-50 flex flex-col gap-15">
