@@ -12,7 +12,7 @@ export default function CancelPage() {
       router.back();
       setTimeout(() => {
         router.back();
-      }, 100);
+      }, 1);
     }, 3000);
 
     return () => clearTimeout(timer);
