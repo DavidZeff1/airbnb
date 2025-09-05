@@ -28,7 +28,7 @@ export default function MainBookingBody() {
   return (
     <div className="px-30 py-5">
       <h1 className="font-semibold text-2xl py-3 ">Create Booking</h1>
-      <div className="grid grid-cols-12 gap-5 h-screen overflow-scroll scrollbar-hide">
+      <div className="grid grid-cols-12 gap-5">
         <BookingStepsContainer booking={booking} />
         <BookingSummaryCardContainer booking={booking} />
       </div>
