@@ -162,7 +162,7 @@ function SearchButton() {
   return (
     <button
       onClick={searchTrips}
-      className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-400 hover:bg-blue-500 h-8 w-8 lg:h-10 lg:w-10 rounded-full flex items-center justify-center transition-colors z-10"
+      className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-400 hover:bg-blue-500 h-8 w-8 lg:h-10 lg:w-10 rounded-full flex items-center justify-center transition-colors z-10 hover:cursor-pointer"
     >
       <Image
         src="/icons/search.png"
