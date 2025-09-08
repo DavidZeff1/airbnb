@@ -5,22 +5,14 @@ import { TripProvider } from "./Context/TripContext";
 
 export default function Header() {
   return (
-    <header
-      className="bg-gray-100 h-auto p-2 sm:p-3 md:p-4 items-center gap-2 sm:gap-3
-      grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr]"
-    >
-      {/* Logo: hidden on mobile, visible md+ */}
-      <div className="hidden md:block justify-self-start">
+    <header className="bg-gray-100 grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] h-50 p-4 items-center">
+      <div className="hidden md:block">
         <Logo />
       </div>
-
       <TripProvider>
-        {/* Search bar always visible, full-width on mobile */}
         <SearchBar />
       </TripProvider>
-
-      {/* UserMenu: hidden on mobile, visible md+ */}
-      <div className="hidden md:block justify-self-end">
+      <div className="hidden md:block">
         <UserMenu />
       </div>
     </header>

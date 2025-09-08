@@ -22,7 +22,7 @@ export default function DropDownCard({
   return (
     <div
       onClick={() => setWhere({ id, imageSrc, title, description })}
-      className="w-full h-20 flex items-center gap-3 hover:bg-gray-100 rounded-3xl "
+      className="w-full h-fit flex items-center gap-3 hover:bg-gray-100 rounded-3xl "
     >
       <Image
         src={imageSrc}
@@ -31,7 +31,7 @@ export default function DropDownCard({
         height={80}
         className="h-full object-cover rounded-3xl"
       />
-      <div className="flex-10 h-full translate-y-6 ">
+      <div className="">
         <p className="text-sm">{`${title}, ${country}`}</p>
         <p className="text-xs text-gray-500">{description}</p>
       </div>

@@ -1,4 +1,3 @@
-//search bar component - UPDATED FOR RESPONSIVENESS
 "use client";
 import clsx from "clsx";
 import Image from "next/image";
@@ -45,88 +44,73 @@ export default function SearchBar() {
             setIsCalendarDropdownOpen(false);
             setIsGuestsDropdownOpen(false);
           }}
-          className="fixed inset-0 z-[5]"
+          className="fixed h-full w-full"
         ></div>
       )}
 
       <div
         className={clsx(
-          "grid grid-cols-1 lg:grid-cols-3 h-auto lg:h-20 w-full max-w-4xl mx-auto rounded-full border-2 border-gray-200 shadow z-10 relative",
+          "grid grid-cols-1 sm:grid-cols-3 h-auto sm:h-20 w-full rounded-full border-2 border-gray-200 shadow z-10",
           anyClicked ? "bg-gray-100" : "bg-white"
         )}
       >
-        {/* Where Section */}
+        {/* Where */}
         <div className="relative">
           <div
             onClick={toggleSearchBarDropdown}
             className={clsx(
-              "p-4 h-16 lg:h-auto cursor-pointer hover:bg-gray-200 rounded-t-full lg:rounded-l-full lg:rounded-tr-none flex flex-col justify-center",
+              "overflow-hidden absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start",
               isSearchBarDropdownOpen && "bg-white"
             )}
           >
-            <label className="text-xs font-semibold block">Where</label>
+            <label className="text-xs font-semibold">Where</label>
             <input
               type="text"
               placeholder={where ? where.title : "Search Destinations"}
-              className="text-sm lg:text-base text-gray-800 focus:outline-none focus:ring-0 bg-transparent w-full"
-              readOnly
+              className="text-base text-gray-800 focus:outline-none focus:ring-0"
             />
           </div>
           {isSearchBarDropdownOpen && <DropDown />}
         </div>
 
-        {/* When Section */}
+        {/* Check In/Out */}
         <div className="relative">
           <button
             onClick={toggleCalendarDropdown}
             className={clsx(
-              "p-4 h-16 lg:h-auto w-full cursor-pointer hover:bg-gray-200 lg:rounded-none flex flex-col justify-center border-y lg:border-y-0 lg:border-x border-gray-200",
+              "absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 rounded-full flex flex-col items-start overflow-hidden",
               isCalendarDropdownOpen && "bg-white"
             )}
           >
-            <p className="text-xs font-semibold text-left">Check In/Out</p>
-            <p className="text-sm lg:text-base font-light text-gray-500 text-left truncate">
+            <p className="text-xs font-semibold">Check In/Out</p>
+            <p className="text-base font-light text-gray-500">
               {startTripDate && endTripDate
-                ? `${startTripDate.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })} - ${endTripDate.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}`
+                ? `${startTripDate.toDateString()} - ${endTripDate.toDateString()}`
                 : "Add Dates"}
             </p>
           </button>
           {isCalendarDropdownOpen && <CalendarDropDown />}
         </div>
 
-        {/* Who Section */}
+        {/* Who */}
         <div className="relative">
           <div
             onClick={toggleGuestsDropdown}
             className={clsx(
-              "p-4 h-16 lg:h-auto cursor-pointer hover:bg-gray-200 rounded-b-full lg:rounded-r-full lg:rounded-bl-none flex flex-col justify-center group relative",
+              "overflow-hidden absolute inset-0 p-4 h-auto w-auto cursor-pointer hover:bg-gray-200 has-[button:hover]:bg-transparent rounded-full flex flex-col items-start group",
               isGuestsDropdownOpen && "bg-white"
             )}
           >
             <p className="text-xs font-semibold">Who</p>
-            <p className="text-sm lg:text-base font-light text-gray-500 truncate pr-12">
-              {who
-                ? `${who.adults} Adult${who.adults !== 1 ? "s" : ""}${
-                    who.children > 0
-                      ? `, ${who.children} Child${
-                          who.children !== 1 ? "ren" : ""
-                        }`
-                      : ""
-                  }${
-                    who.infants > 0
-                      ? `, ${who.infants} Infant${who.infants !== 1 ? "s" : ""}`
-                      : ""
-                  }`
-                : "Add Guests"}
-            </p>
-            <SearchButton />
+            <div className="flex flex-row items-center gap-2">
+              <p className="text-base font-light text-gray-500">
+                {who
+                  ? `Adlt ${who.adults} Chld ${who.children} Inft ${who.infants}`
+                  : "Add Guests"}
+              </p>
+            </div>
           </div>
+          {SearchButton()}
           {isGuestsDropdownOpen && <GuestDropDown />}
         </div>
       </div>
@@ -162,14 +146,14 @@ function SearchButton() {
   return (
     <button
       onClick={searchTrips}
-      className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-400 hover:bg-blue-500 h-8 w-8 lg:h-10 lg:w-10 rounded-full flex items-center justify-center transition-colors z-10 hover:cursor-pointer"
+      className="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-300 h-10 w-10 cursor-pointer hover:bg-blue-500 rounded-full flex items-center justify-center"
     >
       <Image
         src="/icons/search.png"
         alt="Search Icon"
-        width={16}
-        height={16}
-        className="filter invert lg:w-5 lg:h-5"
+        width={20}
+        height={20}
+        className="filter invert"
       />
     </button>
   );
