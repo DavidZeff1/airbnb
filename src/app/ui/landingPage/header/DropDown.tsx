@@ -1,6 +1,8 @@
+//dropdown component for suggested destinations - UPDATED FOR RESPONSIVENESS
 import DropDownCard from "./DropDownCard";
 import { useEffect, useState } from "react";
 import Skeleton from "@/app/ui/skeletons/WhereDropCardSkeleton";
+
 type City = {
   city_id: number;
   city_name: string;
@@ -12,6 +14,7 @@ type City = {
 
 export default function DropDown() {
   const [cities, setCities] = useState<City[]>([]);
+
   useEffect(() => {
     fetch("/api/GetCitiesWhereDropdown")
       .then((res) => res.json())
@@ -24,8 +27,8 @@ export default function DropDown() {
   }, []);
 
   return (
-    <div className="absolute bg-white h-110 w-90 left-0 top-23 text-left rounded-3xl z-10 flex flex-col justify-start gap-2 p-4 border-2 border-gray-200 shadow-lg overflow-y-auto">
-      <div className="text-xs">
+    <div className="absolute bg-white left-0 right-0 lg:right-auto lg:w-80 top-[60px] sm:top-16 lg:top-20 text-left rounded-3xl z-20 flex flex-col gap-2 p-3 sm:p-4 border-2 border-gray-200 shadow-lg max-h-96 overflow-y-auto mx-2 sm:mx-4 lg:mx-0">
+      <div className="text-xs font-medium text-gray-600 mb-2">
         <p>Suggested Destinations</p>
       </div>
       {cities.length > 0 ? (

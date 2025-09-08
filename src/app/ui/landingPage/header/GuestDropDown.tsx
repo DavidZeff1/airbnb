@@ -1,20 +1,21 @@
+//guest dropdown component - UPDATED FOR RESPONSIVENESS
 import { useTrip } from "../Context/TripContext";
 
 export default function GuestDropDown() {
   const { who, setWho } = useTrip();
 
-  // Helper function to get current values or defaults
   const getCurrentWho = () => who || { adults: 0, children: 0, infants: 0 };
 
   return (
-    <div className="absolute bg-white h-fit w-90 right-0 top-23 text-left rounded-3xl z-10 flex flex-col justify-start gap-2 p-4 border-2 border-gray-200 shadow-lg overflow-y-auto justify-between">
-      <div className="w-full h-20 flex justify-between items-center p-2 border-b-2 border-gray-200">
-        <div>
+    <div className="absolute bg-white right-0 left-0 lg:left-auto lg:w-80 top-16 lg:top-20 text-left rounded-3xl z-20 flex flex-col gap-2 p-4 border-2 border-gray-200 shadow-lg max-h-96 overflow-y-auto mx-4 lg:mx-0">
+      {/* Adults */}
+      <div className="w-full flex justify-between items-center p-3 border-b border-gray-200">
+        <div className="flex-1">
           <p className="text-sm font-semibold">Adults</p>
           <p className="text-xs text-gray-500">Ages 13 or above</p>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <p
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => {
               const current = getCurrentWho();
               if (current.adults > 0) {
@@ -25,12 +26,15 @@ export default function GuestDropDown() {
                 });
               }
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
+            disabled={getCurrentWho().adults === 0}
           >
-            -
-          </p>
-          <p>{getCurrentWho().adults}</p>
-          <p
+            −
+          </button>
+          <span className="w-8 text-center font-medium">
+            {getCurrentWho().adults}
+          </span>
+          <button
             onClick={() => {
               const current = getCurrentWho();
               setWho({
@@ -39,19 +43,21 @@ export default function GuestDropDown() {
                 infants: current.infants,
               });
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
           >
             +
-          </p>
+          </button>
         </div>
       </div>
-      <div className="w-full h-20 flex justify-between items-center p-2 border-b-2 border-gray-200">
-        <div>
+
+      {/* Children */}
+      <div className="w-full flex justify-between items-center p-3 border-b border-gray-200">
+        <div className="flex-1">
           <p className="text-sm font-semibold">Children</p>
           <p className="text-xs text-gray-500">Ages 2 - 12</p>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <p
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => {
               const current = getCurrentWho();
               if (current.children > 0) {
@@ -62,12 +68,15 @@ export default function GuestDropDown() {
                 });
               }
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
+            disabled={getCurrentWho().children === 0}
           >
-            -
-          </p>
-          <p>{getCurrentWho().children}</p>
-          <p
+            −
+          </button>
+          <span className="w-8 text-center font-medium">
+            {getCurrentWho().children}
+          </span>
+          <button
             onClick={() => {
               const current = getCurrentWho();
               setWho({
@@ -76,19 +85,21 @@ export default function GuestDropDown() {
                 infants: current.infants,
               });
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
           >
             +
-          </p>
+          </button>
         </div>
       </div>
-      <div className="w-full h-20 flex justify-between items-center p-2 border-b-2 border-gray-200">
-        <div>
+
+      {/* Infants */}
+      <div className="w-full flex justify-between items-center p-3">
+        <div className="flex-1">
           <p className="text-sm font-semibold">Infants</p>
           <p className="text-xs text-gray-500">Ages 0 - 2</p>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <p
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => {
               const current = getCurrentWho();
               if (current.infants > 0) {
@@ -99,12 +110,15 @@ export default function GuestDropDown() {
                 });
               }
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
+            disabled={getCurrentWho().infants === 0}
           >
-            -
-          </p>
-          <p>{getCurrentWho().infants}</p>
-          <p
+            −
+          </button>
+          <span className="w-8 text-center font-medium">
+            {getCurrentWho().infants}
+          </span>
+          <button
             onClick={() => {
               const current = getCurrentWho();
               setWho({
@@ -113,13 +127,12 @@ export default function GuestDropDown() {
                 infants: current.infants + 1,
               });
             }}
-            className="rounded-full hover:bg-gray-200 hover:cursor-pointer text-gray-600 h-fit w-fit p-1"
+            className="w-8 h-8 rounded-full border border-gray-300 hover:bg-gray-100 flex items-center justify-center text-gray-600 font-medium"
           >
             +
-          </p>
+          </button>
         </div>
       </div>
-      <br />
     </div>
   );
 }

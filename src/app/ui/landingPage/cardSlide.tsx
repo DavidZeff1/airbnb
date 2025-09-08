@@ -11,16 +11,14 @@ export default async function CardSlide({
 }) {
   const houses = await getPropertiesOfCity(id);
   return (
-    <div>
-      <div className=" h-100 w-auto mx-20 my-10 flex flex-col">
-        <div>
-          <p className="font-semibold">{`Popular homes in ${name} ${">"}`}</p>
-        </div>
-        <div className="flex-grow w-full flex gap-5 justify-start scrollbar-hide overflow-x-auto p-3">
-          {houses.map((house) => {
-            return <HouseCard key={house.id} {...house} />;
-          })}
-        </div>
+    <div className="w-full px-4 sm:px-6 md:px-10 lg:mx-20 my-6 md:my-10 flex flex-col">
+      <p className="font-semibold text-sm sm:text-base md:text-lg">
+        {`Popular homes in ${name} >`}
+      </p>
+      <div className="flex w-full gap-4 overflow-x-auto scrollbar-hide p-3">
+        {houses.map((house) => (
+          <HouseCard key={house.id} {...house} />
+        ))}
       </div>
     </div>
   );
