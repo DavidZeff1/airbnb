@@ -13,10 +13,8 @@ export default function AddImagesContainer() {
       return;
     }
 
-    // Add new files to existing ones
     setSelectedImages((prev) => [...prev, ...files]);
 
-    // Reset input
     e.target.value = "";
   };
 
@@ -68,6 +66,7 @@ export default function AddImagesContainer() {
               onChange={handleImageChange}
               className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
               id="imageInput"
+              required
             />
             <label
               htmlFor="imageInput"
