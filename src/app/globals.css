@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 :root {
@@ -19,12 +19,7 @@ body {
   /* font-family: var(--font-roboto); */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #000000;
-  }
-}
+
 
 body {
   background: var(--background);
